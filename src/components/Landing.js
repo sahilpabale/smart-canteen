@@ -7,6 +7,7 @@ import {
   Text,
   useBreakpointValue,
 } from '@chakra-ui/react';
+import { Link } from 'react-router-dom';
 
 export default function Landing() {
   return (
@@ -48,7 +49,7 @@ export default function Landing() {
                 bg: 'blue.500',
               }}
             >
-              Create Account
+              <Link to={'/auth'}>Create Account</Link>
             </Button>
           </Stack>
         </Stack>
