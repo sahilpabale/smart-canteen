@@ -58,6 +58,7 @@ export default function Landing() {
         <Image
           alt={'Login Image'}
           objectFit={'cover'}
+          display={{ base: 'none', sm: 'block' }}
           src={
             'http://prod-upp-image-read.ft.com/2262e2e4-49a1-11ea-aee2-9ddbdc86190d'
           }
