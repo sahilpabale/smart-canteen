@@ -14,7 +14,7 @@ import {
   ModalBody,
   useDisclosure,
 } from '@chakra-ui/react';
-import GoogleAuthBtn from './buttons/GoogleAuth';
+import GoogleAuthBtn from '../components/buttons/GoogleAuth';
 import { UserAuth } from '../context/AuthContext';
 import { useNavigate } from 'react-router-dom';
 import { useEffect } from 'react';

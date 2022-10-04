@@ -12,9 +12,11 @@ import {
 } from '@chakra-ui/react';
 import { UserAuth } from '../../context/AuthContext';
 import { VStack } from '@chakra-ui/react';
+import { useNavigate } from 'react-router-dom';
 
 export default function NavbarBtn() {
   const { user, logOut } = UserAuth();
+  const navigate = useNavigate();
   const handleLogOut = async () => {
     try {
       await logOut();
@@ -62,7 +64,10 @@ export default function NavbarBtn() {
         </VStack>
         <br />
         <MenuDivider />
-        <MenuItem>Orders</MenuItem>
+        <MenuItem>Wallet</MenuItem>
+        <MenuItem as="button" onClick={() => navigate('/orders')}>
+          Orders
+        </MenuItem>
         <MenuItem onClick={handleLogOut}>Logout</MenuItem>
       </MenuList>
     </Menu>

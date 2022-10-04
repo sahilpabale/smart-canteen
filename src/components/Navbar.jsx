@@ -16,8 +16,9 @@ import {
   useDisclosure,
 } from '@chakra-ui/react';
 
-import { FaMoon, FaSun, FaCartPlus } from 'react-icons/fa';
+import { FaMoon, FaSun } from 'react-icons/fa';
 import { UserAuth } from '../context/AuthContext';
+import CartMenu from './CartMenu';
 
 export default function Nav({ title, navBtn, hasCheckout }) {
   const { colorMode, toggleColorMode } = useColorMode();
@@ -61,11 +62,7 @@ export default function Nav({ title, navBtn, hasCheckout }) {
               <Button onClick={toggleColorMode} variant="ghost">
                 {colorMode === 'light' ? <FaMoon /> : <FaSun />}
               </Button>
-              {hasCheckout ? (
-                <Button variant="ghost">
-                  <FaCartPlus /> {/*add to cart */}
-                </Button>
-              ) : null}
+              {hasCheckout ? <CartMenu /> : null}
 
               {user == null ? (
                 <Button

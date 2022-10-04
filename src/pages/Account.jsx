@@ -1,4 +1,4 @@
-import React, { useState, useLayoutEffect } from 'react';
+import React, { useState, useLayoutEffect, useEffect } from 'react';
 import Nav from '../components/Navbar';
 import ProfileNavBtn from '../components/buttons/ProfileNavBtn';
 import {
@@ -8,14 +8,23 @@ import {
   HStack,
   Image,
   VStack,
-  Button,
   IconButton,
 } from '@chakra-ui/react';
 import { FaPlus, FaMinus } from 'react-icons/fa';
+import { db } from '../firebase';
+import { getDocs, collection } from 'firebase/firestore';
+import {
+  menu as menuAtom,
+  totalAmt as totalAmtAtom,
+  cart as cartAtom,
+} from '../atoms';
+import { useRecoilState } from 'recoil';
 
 export default function Profile() {
-  const count = 10;
   const [sWidth, setSWidth] = useState(document.body.clientWidth);
+  const [menu, setMenu] = useRecoilState(menuAtom);
+  const [totalAmt, setTotalAmt] = useRecoilState(totalAmtAtom);
+  const [cart, setCart] = useRecoilState(cartAtom);
 
   useLayoutEffect(() => {
     function updateSize() {
@@ -25,36 +34,29 @@ export default function Profile() {
     updateSize();
   }, []);
 
-  const [menu, setMenu] = useState([
-    {
-      id: 1,
-      itemName: 'Paneer Roll',
-      thumbnail:
-        'https://images.pexels.com/photos/461198/pexels-photo-461198.jpeg',
-      cost: 45,
-      count: 0,
-    },
-    {
-      id: 2,
-      itemName: 'Samosa',
-      thumbnail:
-        'https://media.istockphoto.com/photos/punjabi-samosa33-picture-id502814791?k=20&m=502814791&s=612x612&w=0&h=cI3-CpnXXdXBD4vZgaSijSxPzmDS9AgBVS3PfpN3ZAk=',
-      cost: 17,
-      count: 0,
-    },
-    {
-      id: 3,
-      itemName: 'Medu Vada',
-      cost: 31,
-      count: 0,
-      thumbnail:
-        'http://im.rediff.com/travel-living/2015/apr/144302c33c547d28928409d18e3cf130093b56e8.jpg',
-    },
-  ]);
+  useEffect(() => {
+    getDocs(collection(db, 'menu')).then(data => {
+      const getMenu = [];
+      data.forEach(doc =>
+        getMenu.push({
+          id: doc.id,
+          itemName: doc.get('itemName'),
+          cost: doc.get('cost'),
+          thumbnail: doc.get('thumbnail'),
+          count: 0,
+        })
+      );
+      setMenu(getMenu);
+    });
+  }, []);
 
   function incrementCart(id) {
     const newMenu = menu.map(obj => {
       if (obj.id === id) {
+        if (obj.count === 0) {
+          setCart(cart => [...cart, obj]);
+        }
+        setTotalAmt(amt => amt + obj.cost);
         return { ...obj, count: obj.count + 1 };
       }
       return obj;
@@ -65,6 +67,8 @@ export default function Profile() {
   function decrementCart(id) {
     const newMenu = menu.map(obj => {
       if (obj.id === id && obj.count > 0) {
+        setCart(cart => cart.filter(item => item.id !== obj.id));
+        setTotalAmt(amt => amt - obj.cost);
         return { ...obj, count: obj.count - 1 };
       }
       return obj;
@@ -77,7 +81,7 @@ export default function Profile() {
       <Nav title="Profile" navBtn={<ProfileNavBtn />} hasCheckout={true} />
       <Box borderBottom="2px" borderBottomColor="gray.700">
         <Text fontSize="3xl" m={4}>
-          Menu ({count})
+          Menu ({menu.length})
         </Text>
       </Box>
       <SimpleGrid
@@ -125,37 +129,6 @@ export default function Profile() {
         ))}
 
         {/* <Box bg="blue.800" h="100%" rounded="10px">
-          <HStack>
-            <Image
-              src="https://images.pexels.com/photos/461198/pexels-photo-461198.jpeg"
-              borderLeftRadius="10px"
-              boxSize="120px"
-            />
-            <VStack alignItems="start" p="3">
-              <Text fontSize={['xl', '2xl']} color="white" fontWeight="bold">
-                Paneer Roll
-              </Text>
-              <Text
-                fontSize={['md', 'lg', 'xl']}
-                color="gray.400"
-                fontWeight="medium"
-                align="left"
-              >
-                ₹10.00
-              </Text>
-            </VStack>
-            <HStack align="center">
-              <Button variant="unstyled" size="sm" p={2}>
-                <FaPlus />
-              </Button>
-              <Text fontSize="md">2</Text>
-              <Button variant="unstyled" size="sm" p={2}>
-                <FaMinus />
-              </Button>
-            </HStack>
-          </HStack>
-        </Box>
-        <Box bg="blue.800" h="100%" rounded="10px">
           <HStack>
             <Image
               src="https://images.pexels.com/photos/461198/pexels-photo-461198.jpeg"
