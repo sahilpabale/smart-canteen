@@ -12,7 +12,7 @@ root.render(
   <StrictMode>
     <RecoilRoot>
       <BrowserRouter>
-        <ColorModeScript />
+        <ColorModeScript initialColorMode="system" />
         <App />
       </BrowserRouter>
     </RecoilRoot>

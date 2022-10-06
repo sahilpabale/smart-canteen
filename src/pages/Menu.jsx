@@ -107,9 +107,9 @@ export default function Profile() {
         m="5"
         w={{ base: '90%', sm: '95%', md: '95%' }}
       >
-        {menu.map(item => (
+        {menu.map((item, index) => (
           <MenuCard
-            key={item.id}
+            key={index}
             item={item}
             forCart
             incrementCart={incrementCart}

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import Navbar from '../components/Navbar';
 import ProfileNavBtn from '../components/buttons/ProfileNavBtn';
 import {
