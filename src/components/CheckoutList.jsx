@@ -36,9 +36,9 @@ export default function CheckoutList({ toggleToCheckout }) {
   const addMoney = async diff => {
     const userDocRef = doc(db, 'users', user.uid);
     await updateDoc(userDocRef, {
-      wallet: wallet + diff,
+      wallet: wallet + diff + 500,
     });
-    setWallet(wallet + diff);
+    setWallet(wallet + diff + 500);
   };
 
   const pay = () => {
@@ -63,7 +63,7 @@ export default function CheckoutList({ toggleToCheckout }) {
       })
       .then(() => {
         setLoading({ state: false, loadingText: 'Processing...' });
-        navigate(`/order/${orderId}`);
+        navigate(`/orders`);
       })
       .catch(err => {
         console.log(err);

@@ -1,30 +1,26 @@
 import React, { useState, useLayoutEffect, useEffect } from 'react';
 import Nav from '../components/Navbar';
 import ProfileNavBtn from '../components/buttons/ProfileNavBtn';
-import {
-  Box,
-  Text,
-  SimpleGrid,
-  HStack,
-  Image,
-  VStack,
-  IconButton,
-} from '@chakra-ui/react';
-import { FaPlus, FaMinus } from 'react-icons/fa';
+import { Box, Text, SimpleGrid } from '@chakra-ui/react';
 import { db } from '../firebase';
-import { getDocs, collection } from 'firebase/firestore';
+import { getDocs, collection, getDoc, doc } from 'firebase/firestore';
 import {
   menu as menuAtom,
   totalAmt as totalAmtAtom,
   cart as cartAtom,
+  wallet as walletAtom,
 } from '../atoms';
 import { useRecoilState } from 'recoil';
+import MenuCard from '../components/MenuCard';
+import { UserAuth } from '../context/AuthContext';
 
 export default function Profile() {
   const [sWidth, setSWidth] = useState(document.body.clientWidth);
   const [menu, setMenu] = useRecoilState(menuAtom);
   const [totalAmt, setTotalAmt] = useRecoilState(totalAmtAtom);
+  const [wallet, setWallet] = useRecoilState(walletAtom);
   const [cart, setCart] = useRecoilState(cartAtom);
+  const { user } = UserAuth();
 
   useLayoutEffect(() => {
     function updateSize() {
@@ -35,20 +31,37 @@ export default function Profile() {
   }, []);
 
   useEffect(() => {
-    getDocs(collection(db, 'menu')).then(data => {
-      const getMenu = [];
-      data.forEach(doc =>
-        getMenu.push({
-          id: doc.id,
-          itemName: doc.get('itemName'),
-          cost: doc.get('cost'),
-          thumbnail: doc.get('thumbnail'),
-          count: 0,
-        })
-      );
-      setMenu(getMenu);
-    });
+    document.title = 'Your Menu';
+  });
+
+  useEffect(() => {
+    getDocs(collection(db, 'menu'))
+      .then(data => {
+        const getMenu = [];
+        data.forEach(doc =>
+          getMenu.push({
+            id: doc.id,
+            itemName: doc.get('itemName'),
+            cost: doc.get('cost'),
+            thumbnail: doc.get('thumbnail'),
+            count: 0,
+          })
+        );
+        setMenu(getMenu);
+      })
+      .catch(err => console.log(err));
   }, []);
+
+  useEffect(() => {
+    async function fetchWallet() {
+      const userData = await getDoc(doc(db, 'users', user.uid));
+      return userData.get('wallet');
+    }
+
+    fetchWallet()
+      .then(data => setWallet(data))
+      .catch(err => {});
+  }, [user]);
 
   function incrementCart(id) {
     const newMenu = menu.map(obj => {
@@ -78,7 +91,11 @@ export default function Profile() {
 
   return (
     <>
-      <Nav title="Profile" navBtn={<ProfileNavBtn />} hasCheckout={true} />
+      <Nav
+        title={`Welcome, ${user.displayName}`}
+        navBtn={<ProfileNavBtn />}
+        hasCheckout
+      />
       <Box borderBottom="2px" borderBottomColor="gray.700">
         <Text fontSize="3xl" m={4}>
           Menu ({menu.length})
@@ -91,41 +108,13 @@ export default function Profile() {
         w={{ base: '90%', sm: '95%', md: '95%' }}
       >
         {menu.map(item => (
-          <Box key={item.id} bg="blue.800" h="100%" rounded="10px">
-            <HStack>
-              <Image
-                src={item.thumbnail}
-                borderLeftRadius="10px"
-                boxSize="120px"
-              />
-              <VStack alignItems="start" p="3">
-                <Text fontSize={['xl', '2xl']} color="white" fontWeight="bold">
-                  {item.itemName}
-                </Text>
-                <Text
-                  fontSize={['md', 'lg', 'xl']}
-                  color="gray.400"
-                  fontWeight="medium"
-                  align="left"
-                >
-                  ₹{item.cost}.00
-                </Text>
-              </VStack>
-              <HStack align="center" pr="3">
-                <IconButton
-                  onClick={() => incrementCart(item.id)}
-                  size="sm"
-                  icon={<FaPlus />}
-                ></IconButton>
-                <Text fontSize="md">{item.count}</Text>
-                <IconButton
-                  onClick={() => decrementCart(item.id)}
-                  size="sm"
-                  icon={<FaMinus />}
-                ></IconButton>
-              </HStack>
-            </HStack>
-          </Box>
+          <MenuCard
+            key={item.id}
+            item={item}
+            forCart
+            incrementCart={incrementCart}
+            decrementCart={decrementCart}
+          />
         ))}
 
         {/* <Box bg="blue.800" h="100%" rounded="10px">

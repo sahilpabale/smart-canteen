@@ -22,7 +22,6 @@ import CartMenu from './CartMenu';
 
 export default function Nav({ title, navBtn, hasCheckout }) {
   const { colorMode, toggleColorMode } = useColorMode();
-  // const { isOpen, onOpen, onClose } = useDisclosure();
   const { googleSignIn, user } = UserAuth();
   const { isOpen, onClose, onOpen } = useDisclosure();
 

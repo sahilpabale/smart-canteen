@@ -4,10 +4,11 @@ import Auth from './pages/Auth';
 import Home from './pages/Home';
 import { Routes, Route } from 'react-router-dom';
 import { AuthContextProvider } from './context/AuthContext';
-import Account from './pages/Account';
+import Menu from './pages/Menu';
 import Protected from './components/Protected';
 import Orders from './components/Orders';
-import Order from './components/Order';
+import NotFound from './pages/NotFound';
+import Admin from './pages/Admin';
 
 function App() {
   return (
@@ -16,14 +17,13 @@ function App() {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/auth" element={<Auth />} />
-          <Route path="/orders" element={<Orders />} />
           {/* <Route path="/menu" element={<Auth />} /> */}
           {/* <Route path="/menu/:id" element={<Auth />} /> -> useParam() Hook to get the param*/}
           <Route
-            path="/account"
+            path="/menu"
             element={
               <Protected>
-                <Account />
+                <Menu />
               </Protected>
             }
           />
@@ -36,13 +36,15 @@ function App() {
             }
           />
           <Route
-            path="/order/:orderId"
+            path="/admin"
             element={
               <Protected>
-                <Order />
+                {' '}
+                <Admin />{' '}
               </Protected>
             }
           />
+          <Route path="*" element={<NotFound />} />
         </Routes>
       </AuthContextProvider>
     </ChakraProvider>

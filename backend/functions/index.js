@@ -30,6 +30,7 @@ exports.storeUserDataAfterSignup = functions.auth
         email,
         photoURL,
         creationTime: metadata.creationTime,
+        wallet: 1000,
       });
 
       console.log(`doc with id: ${docRef}`);

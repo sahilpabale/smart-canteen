@@ -61,7 +61,7 @@ export default function NavbarBtn() {
         <MenuDivider />
         <MenuItem
           onClick={() => {
-            navigate('/account');
+            navigate('/menu');
           }}
         >
           Account

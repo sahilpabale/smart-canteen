@@ -19,3 +19,8 @@ export const wallet = atom({
   key: 'wallet',
   default: 0,
 });
+
+export const orders = atom({
+  key: 'orders',
+  default: [],
+});

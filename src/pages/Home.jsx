@@ -10,7 +10,7 @@ export default function Home() {
   return (
     <>
       {user ? (
-        <Navigate to="/account" />
+        <Navigate to="/menu" />
       ) : (
         <>
           <Nav title="Smart Canteen" navBtn={<DefNavbarBtn />} />
