@@ -17,6 +17,18 @@ specifiers:
   react-uuid: ^1.0.3
   recoil: ^0.7.5
   web-vitals: ^2.1.4
+  workbox-background-sync: ^6.5.4
+  workbox-broadcast-update: ^6.5.4
+  workbox-cacheable-response: ^6.5.4
+  workbox-core: ^6.5.4
+  workbox-expiration: ^6.5.4
+  workbox-google-analytics: ^6.5.4
+  workbox-navigation-preload: ^6.5.4
+  workbox-precaching: ^6.5.4
+  workbox-range-requests: ^6.5.4
+  workbox-routing: ^6.5.4
+  workbox-strategies: ^6.5.4
+  workbox-streams: ^6.5.4
 
 dependencies:
   '@chakra-ui/react': 2.3.4_yy2yv46gc7pvzkedxxzzl2m6i4
@@ -35,6 +47,18 @@ dependencies:
   react-uuid: 1.0.3
   recoil: 0.7.5_biqbaboplfbrettd7655fr4n2y
   web-vitals: 2.1.4
+  workbox-background-sync: 6.5.4
+  workbox-broadcast-update: 6.5.4
+  workbox-cacheable-response: 6.5.4
+  workbox-core: 6.5.4
+  workbox-expiration: 6.5.4
+  workbox-google-analytics: 6.5.4
+  workbox-navigation-preload: 6.5.4
+  workbox-precaching: 6.5.4
+  workbox-range-requests: 6.5.4
+  workbox-routing: 6.5.4
+  workbox-strategies: 6.5.4
+  workbox-streams: 6.5.4
 
 packages:
 
