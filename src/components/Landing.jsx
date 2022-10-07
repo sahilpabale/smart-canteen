@@ -8,8 +8,13 @@ import {
   useBreakpointValue,
 } from '@chakra-ui/react';
 import { Link } from 'react-router-dom';
+import React, { useEffect } from 'react';
 
 export default function Landing() {
+  useEffect(() => {
+    document.title = 'ScanToEat';
+  });
+
   return (
     <Stack minH={'100vh'} direction={{ base: 'column', md: 'row' }}>
       <Flex p={8} flex={1} align={'center'} justify={'center'}>
@@ -29,7 +34,7 @@ export default function Landing() {
                 zIndex: -1,
               }}
             >
-              SmartCanteen
+              Smart Canteen
             </Text>
             <br />{' '}
             <Text color={'blue.400'} as={'span'}>
@@ -37,8 +42,8 @@ export default function Landing() {
             </Text>{' '}
           </Heading>
           <Text fontSize={{ base: 'md', lg: 'lg' }} color={'gray.500'}>
-            SmartCanteen app is made for ease and better convenience of
-            students, teachers as well as the Canteen staff.
+            ScanToEat app is made for ease and better convenience of students,
+            teachers as well as the Canteen staff.
           </Text>
           <Stack direction={{ base: 'column', md: 'row' }} spacing={4}>
             <Button

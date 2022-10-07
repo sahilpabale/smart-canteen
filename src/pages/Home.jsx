@@ -13,7 +13,7 @@ export default function Home() {
         <Navigate to="/menu" />
       ) : (
         <>
-          <Nav title="Smart Canteen" navBtn={<DefNavbarBtn />} />
+          <Nav title="ScanToEat" navBtn={<DefNavbarBtn />} />
           <Landing />
         </>
       )}

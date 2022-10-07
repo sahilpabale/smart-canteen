@@ -6,6 +6,9 @@ import LiveOrders from '../components/LiveOrders';
 import Nav from '../components/Navbar';
 
 export default function Admin() {
+  useEffect(() => {
+    document.title = 'Admin | ScanToEat';
+  });
   return (
     <>
       <Nav title="Admin Dashboard" navBtn={<NavbarBtn />} />

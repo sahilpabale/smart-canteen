@@ -23,6 +23,9 @@ export default function Auth() {
   const { googleSignIn, user } = UserAuth();
   const navigate = useNavigate();
   const { isOpen, onClose, onOpen } = useDisclosure();
+  useEffect(() => {
+    document.title = 'Sign In | ScanToEat';
+  });
 
   const handleGoogleSignIn = async () => {
     try {
@@ -59,7 +62,7 @@ export default function Auth() {
       <Stack minH={'100vh'} direction={{ base: 'column', md: 'row' }}>
         <Flex p={8} flex={1} align={'center'} justify={'center'}>
           <Stack spacing={4} w={'full'} maxW={'md'} align={'center'}>
-            <Heading fontSize={'4xl'}>Sign in to your account</Heading>
+            <Heading fontSize={'3xl'}>Sign in to ScanToEat account</Heading>
             <Text fontSize={'lg'} color={'gray.600'}>
               Use your{' '}
               <Text as="span" color="blue.600">
