@@ -18,6 +18,8 @@ import GoogleAuthBtn from '../components/buttons/GoogleAuth';
 import { UserAuth } from '../context/AuthContext';
 import { useNavigate } from 'react-router-dom';
 import { useEffect } from 'react';
+import { analytics } from '../firebase';
+import { logEvent } from 'firebase/analytics';
 
 export default function Auth() {
   const { googleSignIn, user } = UserAuth();
@@ -30,6 +32,9 @@ export default function Auth() {
   const handleGoogleSignIn = async () => {
     try {
       await googleSignIn();
+      logEvent(analytics, 'login', {
+        method: 'Google',
+      });
     } catch (error) {
       onOpen();
     }

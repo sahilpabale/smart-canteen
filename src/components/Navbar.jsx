@@ -19,6 +19,8 @@ import {
 import { FaMoon, FaSun } from 'react-icons/fa';
 import { UserAuth } from '../context/AuthContext';
 import CartMenu from './CartMenu';
+import { analytics } from '../firebase';
+import { logEvent } from 'firebase/analytics';
 
 export default function Nav({ title, navBtn, hasCheckout }) {
   const { colorMode, toggleColorMode } = useColorMode();
@@ -28,6 +30,9 @@ export default function Nav({ title, navBtn, hasCheckout }) {
   const handleSignIn = async () => {
     try {
       await googleSignIn();
+      logEvent(analytics, 'login', {
+        method: 'Google',
+      });
     } catch (error) {
       onOpen();
     }

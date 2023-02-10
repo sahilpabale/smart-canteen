@@ -11,6 +11,8 @@ import {
 import { useRecoilState } from 'recoil';
 import CartMenuList from './CartMenuList';
 import CheckoutList from './CheckoutList';
+import { analytics } from '../firebase';
+import { logEvent } from 'firebase/analytics';
 
 export default function CartMenu() {
   const [menu] = useRecoilState(menuAtom);
@@ -21,9 +23,17 @@ export default function CartMenu() {
     setToCheckout(!toCheckout);
   };
 
+  const reportToFirebase = () => {
+    console.log('reporting to firebase');
+    logEvent(analytics, 'view_cart', {
+      currency: 'INR',
+      items: cart,
+    });
+  };
+
   return (
     <Menu closeOnSelect={false}>
-      <MenuButton as={Button} variant="ghost">
+      <MenuButton as={Button} variant="ghost" onClick={reportToFirebase}>
         {cart.length > 0 ? <BsCartFill /> : <BsCart />}
       </MenuButton>
       <MenuList>
