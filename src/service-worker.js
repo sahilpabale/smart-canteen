@@ -70,3 +70,12 @@ self.addEventListener('message', (event) => {
 });
 
 // Any other custom service worker logic can go here.
+self.addEventListener('push', (event) => { 
+  if (event && event.data) {
+    let data = event.data.json();
+    if (data.method == "pushMessage") { 
+      console.log("Push notiﬁcation sent");
+      event.waitUntil(self.registration.showNotiﬁcation("Smart Canteen!", { body: data.message }))
+    }
+  }
+})  
