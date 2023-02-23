@@ -69,13 +69,27 @@ self.addEventListener('message', (event) => {
   }
 });
 
+function showNotification(message) {
+  Notification.requestPermission((result) => {
+    if (result === "granted") {
+      navigator.serviceWorker.ready.then((registration) => {
+        registration.showNotification("Smart Canteen", {
+          body: message,
+          vibrate: [200, 100, 200, 100, 200, 100, 200],
+          tag: "smart canteen",
+        });
+      });
+    }
+  });
+}
+
 // Any other custom service worker logic can go here.
 self.addEventListener('push', (event) => { 
   if (event && event.data) {
     let data = event.data.json();
     if (data.method == "pushMessage") { 
       console.log("Push notiﬁcation sent");
-      event.waitUntil(self.registration.showNotiﬁcation("Smart Canteen!", { body: data.message }))
+      event.waitUntil(showNotification(data.message))
     }
   }
 })  
