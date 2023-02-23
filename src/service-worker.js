@@ -89,7 +89,17 @@ self.addEventListener('push', (event) => {
     let data = event.data.json();
     if (data.method == "pushMessage") { 
       console.log("Push notiﬁcation sent");
-      event.waitUntil(showNotification(data.message))
+      event.waitUntil(Notification.requestPermission((result) => {
+        if (result === "granted") {
+          navigator.serviceWorker.ready.then((registration) => {
+            registration.showNotification("Smart Canteen", {
+              body: data.message,
+              vibrate: [200, 100, 200, 100, 200, 100, 200],
+              tag: "smart canteen",
+            });
+          });
+        }
+      }))
     }
   }
 })  
