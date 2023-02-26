@@ -103,3 +103,10 @@ self.addEventListener('push', (event) => {
     }
   }
 })  
+
+
+self.addEventListener('sync', (event) => { 
+  if(event.tag == "syncMessage") {
+    console.log("Sync successfull!");
+  }
+})
