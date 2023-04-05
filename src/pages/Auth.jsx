@@ -72,11 +72,11 @@ export default function Auth() {
               Use your{' '}
               <Text as="span" color="blue.600">
                 <a
-                  href="https://vesit.ves.ac.in"
+                  href="https://siesgst.edu.in/"
                   target="_blank"
                   rel="noreferrer"
                 >
-                  VESIT
+                  SIES
                 </a>{' '}
               </Text>
               google account to login here!
